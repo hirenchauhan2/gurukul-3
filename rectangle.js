@@ -4,6 +4,10 @@ class Rectangle {
     this.breadth = breadth;
   }
 
+  static createSquare(side) {
+    return new Rectangle(side, side);
+  }
+
   getArea() {
     return this.length * this.breadth;
   }

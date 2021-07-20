@@ -1,0 +1,16 @@
+{
+  "name": "gurukul-v3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "keywords": [],
+  "author": "Hiren Chauhan",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
+}

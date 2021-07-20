@@ -16,4 +16,13 @@ describe('Rectangle', () => {
       expect(result).toBe(16);
     });
   });
+
+  describe('getPerimeter()', () => {
+    test('should return the perimeter of rectangle of length 6 and breadth 4', () => {
+      let rectangle = new Rectangle(6, 4);
+      const result = rectangle.getPerimeter();
+
+      expect(result).toBe(20);
+    });
+  });
 });

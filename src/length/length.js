@@ -1,4 +1,6 @@
-const { CENTIMETER, METER } = require('../constants');
+const {
+  UNITS: { CENTIMETER, METER },
+} = require('../constants');
 
 class Length {
   constructor(value, type) {

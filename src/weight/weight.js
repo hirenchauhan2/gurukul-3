@@ -1,4 +1,6 @@
-const { KILOGRAM, GRAM } = require('../constants');
+const {
+  UNITS: { KILOGRAM, GRAM },
+} = require('../constants');
 
 class Weight {
   constructor(value, unit) {

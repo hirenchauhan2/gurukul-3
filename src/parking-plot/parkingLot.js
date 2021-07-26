@@ -15,6 +15,17 @@ class ParkingLot {
     this.parkingSlots.push(vehicle);
   }
 
+  unParkVehicle(vehicleToUnPark) {
+    // empty check
+    if (this.parkingSlots.length === 0) {
+      return;
+    }
+
+    this.parkingSlots = this.parkingSlots.filter(
+      (vehicle) => vehicle.licencePlate !== vehicleToUnPark.licencePlate
+    );
+  }
+
   isVehicleParked(vehicleToFind) {
     return (
       this.parkingSlots.find((vehicle) => vehicle.licencePlate === vehicleToFind.licencePlate) !==

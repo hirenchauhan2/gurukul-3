@@ -2,30 +2,42 @@ const ParkingLot = require('./parkingLot');
 const Vehicle = require('./vehicle');
 const { VEHICLE_TYPES } = require('../constants');
 
-describe('ParkingPlot', () => {
+describe('ParkingLot', () => {
   describe('parkVehicle', () => {
     test('should park a car successfully', () => {
-      const parkingPlot = new ParkingLot(3);
+      const parkingLot = new ParkingLot(3);
       const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
 
-      expect(() => parkingPlot.parkVehicle(firstCar)).not.toThrow();
+      expect(() => parkingLot.parkVehicle(firstCar)).not.toThrow();
     });
 
     test('should throw an error when capacity is full', () => {
-      const parkingPlot = new ParkingLot(0);
+      const parkingLot = new ParkingLot(0);
       const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
 
-      expect(() => parkingPlot.parkVehicle(firstCar)).toThrow();
+      expect(() => parkingLot.parkVehicle(firstCar)).toThrow();
+    });
+  });
+
+  describe('unParkVehicle', () => {
+    test('should un-park a vehicle', () => {
+      const parkingLot = new ParkingLot(1);
+      const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
+
+      parkingLot.parkVehicle(firstCar);
+      parkingLot.unParkVehicle(firstCar);
+
+      expect(parkingLot.isVehicleParked(firstCar)).toBeFalsy();
     });
   });
 
   describe('isVehicleParked', () => {
     test('should return true if vehicle is parked in parking plot', () => {
-      const parkingPlot = new ParkingLot(3);
+      const parkingLot = new ParkingLot(3);
       const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
-      parkingPlot.parkVehicle(firstCar);
+      parkingLot.parkVehicle(firstCar);
 
-      expect(parkingPlot.isVehicleParked(firstCar)).toBeTruthy();
+      expect(parkingLot.isVehicleParked(firstCar)).toBeTruthy();
     });
   });
 });

@@ -1,5 +1,8 @@
-class Attendant {
+const Subscriber = require('./subscriber');
+
+class Attendant extends Subscriber {
   constructor(name, parkingLot) {
+    super();
     this.name = name;
     this.parkingLot = parkingLot;
   }

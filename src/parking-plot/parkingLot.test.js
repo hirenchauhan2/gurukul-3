@@ -1,13 +1,13 @@
 const ParkingLot = require('./parkingLot');
 const Vehicle = require('./vehicle');
 const { VEHICLE_TYPES } = require('../constants');
+const Subscriber = require('./subscriber');
+const Attendant = require('./attendant');
 
-const Owner = require('./owner');
-
-jest.mock('./owner.js');
+jest.mock('./subscriber');
 
 beforeAll(() => {
-  Owner.mockImplementation(() => {
+  Subscriber.mockImplementation(() => {
     return {
       notifyWhenCapacityFull: jest.fn(),
       notifyWhenSpaceAvailable: jest.fn(),
@@ -45,7 +45,7 @@ describe('ParkingLot', () => {
   });
 
   describe('isVehicleParked', () => {
-    test('should return true if vehicle is parked in parking plot', () => {
+    test('should return true if vehicle is parked in parking lot', () => {
       const parkingLot = new ParkingLot(3);
       const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
       parkingLot.parkVehicle(firstCar);
@@ -56,24 +56,27 @@ describe('ParkingLot', () => {
 
   describe('notifications', () => {
     test('should notify owner when capacity is full', () => {
-      const owner = new Owner();
-      const parkingLot = new ParkingLot(1, owner);
+      const owner = new Subscriber();
+      const parkingLot = new ParkingLot(1);
       const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
+
+      parkingLot.addSubscriber(owner);
 
       parkingLot.parkVehicle(firstCar);
 
       expect(owner.notifyWhenCapacityFull.mock.calls.length).toBe(1);
     });
 
-    test('should notify owner when space becomes available', () => {
-      const owner = new Owner();
-      const parkingLot = new ParkingLot(1, owner);
+    test('should notify attendant when space becomes available', () => {
+      const attendant = new Attendant();
+      const parkingLot = new ParkingLot(1);
       const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
 
+      parkingLot.addSubscriber(attendant);
       parkingLot.parkVehicle(firstCar);
       parkingLot.unParkVehicle(firstCar);
 
-      expect(owner.notifyWhenSpaceAvailable.mock.calls.length).toBe(1);
+      expect(attendant.notifyWhenSpaceAvailable.mock.calls.length).toBe(1);
     });
   });
 });

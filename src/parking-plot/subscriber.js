@@ -1,9 +1,7 @@
-class Owner {
-  constructor() {}
-
+class Subscriber {
   notifyWhenCapacityFull() {}
 
   notifyWhenSpaceAvailable() {}
 }
 
-module.exports = Owner;
+module.exports = Subscriber;

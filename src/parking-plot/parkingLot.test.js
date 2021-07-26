@@ -2,6 +2,19 @@ const ParkingLot = require('./parkingLot');
 const Vehicle = require('./vehicle');
 const { VEHICLE_TYPES } = require('../constants');
 
+const Owner = require('./owner');
+
+jest.mock('./owner.js');
+
+beforeAll(() => {
+  Owner.mockImplementation(() => {
+    return {
+      notifyWhenCapacityFull: jest.fn(),
+      notifyWhenSpaceAvailable: jest.fn(),
+    };
+  });
+});
+
 describe('ParkingLot', () => {
   describe('parkVehicle', () => {
     test('should park a car successfully', () => {
@@ -38,6 +51,29 @@ describe('ParkingLot', () => {
       parkingLot.parkVehicle(firstCar);
 
       expect(parkingLot.isVehicleParked(firstCar)).toBeTruthy();
+    });
+  });
+
+  describe('notifications', () => {
+    test('should notify owner when capacity is full', () => {
+      const owner = new Owner();
+      const parkingLot = new ParkingLot(1, owner);
+      const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
+
+      parkingLot.parkVehicle(firstCar);
+
+      expect(owner.notifyWhenCapacityFull.mock.calls.length).toBe(1);
+    });
+
+    test('should notify owner when space becomes available', () => {
+      const owner = new Owner();
+      const parkingLot = new ParkingLot(1, owner);
+      const firstCar = new Vehicle(VEHICLE_TYPES.car, 'ABC');
+
+      parkingLot.parkVehicle(firstCar);
+      parkingLot.unParkVehicle(firstCar);
+
+      expect(owner.notifyWhenSpaceAvailable.mock.calls.length).toBe(1);
     });
   });
 });

@@ -1,9 +1,10 @@
 const CapacityFullError = require('./capacityFullError');
 
 class ParkingLot {
-  constructor(capacity = 10) {
+  constructor(capacity = 10, owner) {
     this.capacity = capacity;
     this.parkingSlots = [];
+    this.owner = owner;
   }
 
   parkVehicle(vehicle) {
@@ -13,6 +14,10 @@ class ParkingLot {
     }
 
     this.parkingSlots.push(vehicle);
+
+    if (this.isParkingLotFull()) {
+      this.owner?.notifyWhenCapacityFull();
+    }
   }
 
   unParkVehicle(vehicleToUnPark) {
@@ -21,9 +26,15 @@ class ParkingLot {
       return;
     }
 
+    const shouldNotifyForAvailableSpace = this.isParkingLotFull();
+
     this.parkingSlots = this.parkingSlots.filter(
       (vehicle) => vehicle.licencePlate !== vehicleToUnPark.licencePlate
     );
+
+    if (shouldNotifyForAvailableSpace) {
+      this.owner?.notifyWhenSpaceAvailable();
+    }
   }
 
   isVehicleParked(vehicleToFind) {
